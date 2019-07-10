@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace sharpcode
 {
@@ -109,6 +109,16 @@ namespace sharpcode
             {
                 Insert(key, value);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as FlatMap<Key, Value>);
+        }
+
+        public bool Equals(FlatMap<Key, Value> that)
+        {
+            return keys.SequenceEqual(that.keys) && values.SequenceEqual(that.values);
         }
 
         bool Find(Key key, ref Value value)

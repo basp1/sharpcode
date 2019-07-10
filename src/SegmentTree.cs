@@ -49,6 +49,11 @@ namespace sharpcode
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as SegmentTree<T>);
+        }
+
         public bool Equals(SegmentTree<T> that)
         {
             if (capacity != that.Capacity)
