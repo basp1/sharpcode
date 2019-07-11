@@ -82,7 +82,7 @@ namespace sharpcode
                 }
             }
 
-            throw new ArgumentOutOfRangeException();
+            return default;
         }
 
         public void Set(int row, int column, T value)
