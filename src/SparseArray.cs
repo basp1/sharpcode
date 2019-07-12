@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 namespace sharpcode
 {
+#pragma warning disable CS0659
     public class SparseArray<T> : IEnumerable<KeyValuePair<int, T>>
+#pragma warning restore CS0659
     {
         int size;
         T @default;

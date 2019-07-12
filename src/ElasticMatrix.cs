@@ -5,7 +5,9 @@ using System.Collections;
 
 namespace sharpcode
 {
+#pragma warning disable CS0659
     public class ElasticMatrix<T>
+#pragma warning restore CS0659
     {
         static readonly int NULL = -1;
 
@@ -58,6 +60,51 @@ namespace sharpcode
         public int Count { get; private set; }
 
         public int Capacity { get { return values.Capacity; } }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is ElasticMatrix<T>))
+            {
+                return false;
+            }
+
+            var that = (ElasticMatrix<T>)obj;
+
+            if (Count != that.Count)
+            {
+                return false;
+            }
+            if (Rows != that.Rows)
+            {
+                return false;
+            }
+            if (Columns != that.Columns)
+            {
+                return false;
+            }
+
+            if (!count.SequenceEqual(that.count))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = rows[i], k = that.rows[i]; NULL != j && NULL != k; j = next[j], k = that.next[k])
+                {
+                    if (columns[j] != that.columns[k])
+                    {
+                        return false;
+                    }
+                    if (!values[j].Equals(that.values[k]))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         public T this[int row, int column]
         {
@@ -117,79 +164,6 @@ namespace sharpcode
             Add(row, column, value);
         }
 
-        public override bool Equals(object obj)
-        {
-            if (!(obj is ElasticMatrix<T>))
-            {
-                return false;
-            }
-
-            var that = (ElasticMatrix<T>)obj;
-
-            if (Count != that.Count)
-            {
-                return false;
-            }
-            if (Rows != that.Rows)
-            {
-                return false;
-            }
-            if (Columns != that.Columns)
-            {
-                return false;
-            }
-
-            if (!count.SequenceEqual(that.count))
-            {
-                return false;
-            }
-
-            for (int i = 0; i < Rows; i++)
-            {
-                for (int j = rows[i], k = that.rows[i]; NULL != j && NULL != k; j = next[j], k = that.next[k])
-                {
-                    if (columns[j] != that.columns[k])
-                    {
-                        return false;
-                    }
-                    if (!values[j].Equals(that.values[k]))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        public int RemoveRow(int row)
-        {
-            if (0 == count[row])
-            {
-                return 0;
-            }
-
-            next[last[row]] = free;
-            free = rows[row];
-
-            rows[row] = NULL;
-            last[row] = NULL;
-            Count -= count[row];
-            int k = count[row];
-            count[row] = 0;
-
-            return k;
-        }
-
-        public void AddRow()
-        {
-            rows.Add(NULL);
-            last.Add(NULL);
-            count.Add(0);
-
-            Rows += 1;
-        }
-
         public int Add(int row, int column, T value)
         {
             int n;
@@ -223,6 +197,78 @@ namespace sharpcode
             Count += 1;
 
             return n;
+        }
+
+        public void Remove(int row, int column)
+        {
+            int k = NULL;
+            int p = NULL;
+            for (int j = rows[row]; NULL != j; j = next[j])
+            {
+                if (column == columns[j])
+                {
+                    k = j;
+                    break;
+                }
+                p = j;
+            }
+
+            if (NULL == k)
+            {
+                return;
+            }
+
+            if (rows[row] == k)
+            {
+                rows[row] = next[k];
+                next[k] = free;
+                free = k;
+                if (last[row] == k)
+                {
+                    last[row] = rows[row];
+                }
+            }
+            else
+            {
+                next[p] = next[k];
+                next[k] = free;
+                free = k;
+                if (last[row] == k)
+                {
+                    last[row] = p;
+                }
+            }
+
+            count[row] -= 1;
+            Count -= 1;
+        }
+
+        public int RemoveRow(int row)
+        {
+            if (0 == count[row])
+            {
+                return 0;
+            }
+
+            next[last[row]] = free;
+            free = rows[row];
+
+            rows[row] = NULL;
+            last[row] = NULL;
+            Count -= count[row];
+            int k = count[row];
+            count[row] = 0;
+
+            return k;
+        }
+
+        public void AddRow()
+        {
+            rows.Add(NULL);
+            last.Add(NULL);
+            count.Add(0);
+
+            Rows += 1;
         }
 
         public bool Contains(int row, int column)
@@ -294,50 +340,6 @@ namespace sharpcode
                 last[i] = indices[count[i] - 1];
                 next[indices[count[i] - 1]] = NULL;
             }
-        }
-
-        public void Remove(int row, int column)
-        {
-            int k = NULL;
-            int p = NULL;
-            for (int j = rows[row]; NULL != j; j = next[j])
-            {
-                if (column == columns[j])
-                {
-                    k = j;
-                    break;
-                }
-                p = j;
-            }
-
-            if (NULL == k)
-            {
-                return;
-            }
-
-            if (rows[row] == k)
-            {
-                rows[row] = next[k];
-                next[k] = free;
-                free = k;
-                if (last[row] == k)
-                {
-                    last[row] = rows[row];
-                }
-            }
-            else
-            {
-                next[p] = next[k];
-                next[k] = free;
-                free = k;
-                if (last[row] == k)
-                {
-                    last[row] = p;
-                }
-            }
-
-            count[row] -= 1;
-            Count -= 1;
         }
 
         public void ForRow(int line, Action<int, T> func)

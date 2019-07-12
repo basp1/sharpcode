@@ -4,11 +4,13 @@ using System.Linq;
 
 namespace sharpcode
 {
+#pragma warning disable CS0659
     public class DenseMatrix<T>
+#pragma warning restore CS0659
     {
-        private int rows;
-        private int columns;
-        private T[] values;
+        int rows;
+        int columns;
+        T[] values;
 
         public DenseMatrix(int rows, int columns)
         {

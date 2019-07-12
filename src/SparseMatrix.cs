@@ -4,7 +4,9 @@ using System.Collections.Generic;
 
 namespace sharpcode
 {
+#pragma warning disable CS0659
     public class SparseMatrix<T>
+#pragma warning restore CS0659
     {
         int[] columns;
         int[] columnsRows;

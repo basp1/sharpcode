@@ -5,7 +5,9 @@ using System.Collections.Generic;
 
 namespace sharpcode
 {
+#pragma warning disable CS0659
     public class FlatMap<Key, Value> : IEnumerable<KeyValuePair<Key, Value>>
+#pragma warning restore CS0659
     {
         List<Key> keys;
         List<Value> values;
