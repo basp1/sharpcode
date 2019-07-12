@@ -162,31 +162,6 @@ namespace sharpcode
             return true;
         }
 
-        public void Merge(int destRow, int srcRow)
-        {
-            int k = rows[srcRow];
-            if (NULL == k)
-            {
-                return;
-            }
-
-            if (NULL == rows[destRow])
-            {
-                rows[destRow] = rows[srcRow];
-            }
-            else
-            {
-                next[last[destRow]] = rows[srcRow];
-            }
-
-            last[destRow] = last[srcRow];
-            rows[srcRow] = NULL;
-            last[srcRow] = NULL;
-
-            count[destRow] += count[srcRow];
-            count[srcRow] = 0;
-        }
-
         public int RemoveRow(int row)
         {
             if (0 == count[row])
