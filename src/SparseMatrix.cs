@@ -282,5 +282,59 @@ namespace sharpcode
             Y.Count = Count;
             return Y;
         }
+
+        public SparseArray<T> GetRow(int row)
+        {
+            var array = new SparseArray<T>(Columns);
+
+            for (int j = rows[row]; j < rows[row + 1]; j++)
+            {
+                array[rowsColumns[j]] = values[positions[j]];
+            }
+
+            return array;
+        }
+
+        public SparseArray<T> GetColumn(int column)
+        {
+            var array = new SparseArray<T>(Rows);
+
+            for (int i = columns[column]; i < columns[column + 1]; i++)
+            {
+                array[columnsRows[i]] = values[i];
+            }
+
+            return array;
+        }
+
+        public void ForRow(int i, Action<int, T> func)
+        {
+            for (int j = rows[i]; j < rows[i + 1]; j++)
+            {
+                func(rowsColumns[j], values[positions[j]]);
+            }
+        }
+
+        public void ForColumn(int j, Action<int, T> func)
+        {
+            for (int i = columns[j]; i < columns[j + 1]; i++)
+            {
+                func(columnsRows[i], values[i]);
+            }
+        }
+
+        public DenseMatrix<T> ToDenseMatrix()
+        {
+            var dense = new DenseMatrix<T>(Rows, Columns);
+            for (int j = 0; j < Columns; j++)
+            {
+                for (int i = columns[j]; i < columns[j + 1]; i++)
+                {
+                    dense[columnsRows[i], j] = values[i];
+                }
+            }
+
+            return dense;
+        }
     }
 }

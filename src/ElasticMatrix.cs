@@ -339,5 +339,25 @@ namespace sharpcode
             count[row] -= 1;
             Count -= 1;
         }
+
+        public void ForRow(int line, Action<int, T> func)
+        {
+            for (int i = rows[line]; NULL != i; i = next[i])
+            {
+                func(columns[i], values[i]);
+            }
+        }
+
+        public SparseArray<T> GetRow(int row)
+        {
+            var array = new SparseArray<T>(Columns);
+
+            for (int j = rows[row]; NULL != j; j = next[j])
+            {
+                array[columns[j]] = values[j];
+            }
+
+            return array;
+        }
     }
 }
