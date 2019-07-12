@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace sharpcode
 {
-    public class SparseArray<T>
+    public class SparseArray<T> : IEnumerable<KeyValuePair<int, T>>
     {
         int size;
         T @default;
@@ -20,7 +21,7 @@ namespace sharpcode
         {
             for (int i = 0; i < size; i++)
             {
-                Insert(i, init[i]);
+                Set(i, init[i]);
             }
         }
 
@@ -28,7 +29,7 @@ namespace sharpcode
         {
             foreach (var item in init)
             {
-                Insert(item.Key, item.Value);
+                Set(item.Key, item.Value);
             }
         }
 
@@ -47,7 +48,7 @@ namespace sharpcode
             return items.Equals(that.items);
         }
 
-        public void Insert(int index, T value)
+        public void Set(int index, T value)
         {
             if (index < 0 || index >= size)
             {
@@ -67,7 +68,7 @@ namespace sharpcode
             return items.Contains(index);
         }
 
-        public int Nnz
+        public int Count
         {
             get
             {
@@ -129,8 +130,21 @@ namespace sharpcode
 
             set
             {
-                Insert(index, value);
+                Set(index, value);
             }
+        }
+
+        public IEnumerator<KeyValuePair<int, T>> GetEnumerator()
+        {
+            foreach (var item in items)
+            {
+                yield return item;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

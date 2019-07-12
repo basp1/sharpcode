@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace sharpcode
 {
-    public class FlatMap<Key, Value>
+    public class FlatMap<Key, Value> : IEnumerable<KeyValuePair<Key, Value>>
     {
         List<Key> keys;
         List<Value> values;
@@ -159,6 +160,19 @@ namespace sharpcode
             }
 
             return l;
+        }
+
+        public IEnumerator<KeyValuePair<Key, Value>> GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                yield return new KeyValuePair<Key, Value>(keys[i], values[i]);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
