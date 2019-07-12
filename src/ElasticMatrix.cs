@@ -342,9 +342,9 @@ namespace sharpcode
             }
         }
 
-        public void ForRow(int line, Action<int, T> func)
+        public void ForRow(int row, Action<int, T> func)
         {
-            for (int i = rows[line]; NULL != i; i = next[i])
+            for (int i = rows[row]; NULL != i; i = next[i])
             {
                 func(columns[i], values[i]);
             }
