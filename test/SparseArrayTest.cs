@@ -9,35 +9,35 @@ namespace sharpcode.test
     public class SparseArrayTest
     {
         [TestMethod]
-        public void Insert_1()
+        public void Set_1()
         {
             var a = new SparseArray<char>(10);
 
-            a.Insert(1, 'a');
-            a.Insert(5, 'e');
-            a.Insert(3, 'c');
+            a.Set(1, 'a');
+            a.Set(5, 'e');
+            a.Set(3, 'c');
 
-            Assert.AreEqual(3, a.Nnz);
+            Assert.AreEqual(3, a.Count);
 
-            a.Insert(2, 'b');
-            a.Insert(4, 'd');
+            a.Set(2, 'b');
+            a.Set(4, 'd');
 
-            Assert.AreEqual(5, a.Nnz);
+            Assert.AreEqual(5, a.Count);
         }
 
         [TestMethod]
-        public void Insert_2()
+        public void Set_2()
         {
             var a = new SparseArray<char>(10);
 
-            a.Insert(1, 'a');
-            Assert.AreEqual(1, a.Nnz);
+            a.Set(1, 'a');
+            Assert.AreEqual(1, a.Count);
 
-            a.Insert(1, 'a');
-            Assert.AreEqual(1, a.Nnz);
+            a.Set(1, 'a');
+            Assert.AreEqual(1, a.Count);
 
-            a.Insert(1, 'b');
-            Assert.AreEqual(1, a.Nnz);
+            a.Set(1, 'b');
+            Assert.AreEqual(1, a.Count);
         }
 
         [TestMethod]
@@ -45,9 +45,9 @@ namespace sharpcode.test
         {
             var a = new SparseArray<char>(10);
 
-            a.Insert(1, 'a');
-            a.Insert(5, 'e');
-            a.Insert(3, 'c');
+            a.Set(1, 'a');
+            a.Set(5, 'e');
+            a.Set(3, 'c');
 
             Assert.IsTrue(a.Contains(1));
             Assert.IsTrue(a.Contains(3));
@@ -57,8 +57,8 @@ namespace sharpcode.test
             Assert.IsFalse(a.Contains(4));
             Assert.IsFalse(a.Contains(6));
 
-            a.Insert(2, 'b');
-            a.Insert(4, 'd');
+            a.Set(2, 'b');
+            a.Set(4, 'd');
 
             Assert.IsTrue(a.Contains(1));
             Assert.IsTrue(a.Contains(2));
@@ -74,17 +74,17 @@ namespace sharpcode.test
         {
             var a = new SparseArray<char>(10);
 
-            a.Insert(1, 'a');
+            a.Set(1, 'a');
             Assert.IsTrue(a.Contains(1));
             Assert.IsFalse(a.Contains(0));
             Assert.IsFalse(a.Contains(9));
 
-            a.Insert(1, 'a');
+            a.Set(1, 'a');
             Assert.IsTrue(a.Contains(1));
             Assert.IsFalse(a.Contains(0));
             Assert.IsFalse(a.Contains(9));
 
-            a.Insert(1, 'b');
+            a.Set(1, 'b');
             Assert.IsTrue(a.Contains(1));
             Assert.IsFalse(a.Contains(0));
             Assert.IsFalse(a.Contains(9));
@@ -95,16 +95,16 @@ namespace sharpcode.test
         {
             var a = new SparseArray<char>(10);
 
-            a.Insert(1, 'a');
-            a.Insert(5, 'e');
-            a.Insert(3, 'c');
+            a.Set(1, 'a');
+            a.Set(5, 'e');
+            a.Set(3, 'c');
 
             Assert.AreEqual('a', a.Get(1));
             Assert.AreEqual('c', a.Get(3));
             Assert.AreEqual('e', a.Get(5));
 
-            a.Insert(2, 'b');
-            a.Insert(4, 'd');
+            a.Set(2, 'b');
+            a.Set(4, 'd');
 
             Assert.AreEqual('a', a.Get(1));
             Assert.AreEqual('b', a.Get(2));
@@ -118,13 +118,13 @@ namespace sharpcode.test
         {
             var a = new SparseArray<char>(10);
 
-            a.Insert(1, 'a');
+            a.Set(1, 'a');
             Assert.AreEqual('a', a.Get(1));
 
-            a.Insert(1, 'a');
+            a.Set(1, 'a');
             Assert.AreEqual('a', a.Get(1));
 
-            a.Insert(1, 'b');
+            a.Set(1, 'b');
             Assert.AreEqual('b', a.Get(1));
         }
 
@@ -154,18 +154,18 @@ namespace sharpcode.test
         public void Equals_2()
         {
             var a = new SparseArray<char>(10);
-            a.Insert(1, 'a');
-            a.Insert(2, 'b');
-            a.Insert(3, 'c');
-            a.Insert(4, 'd');
-            a.Insert(5, 'e');
+            a.Set(1, 'a');
+            a.Set(2, 'b');
+            a.Set(3, 'c');
+            a.Set(4, 'd');
+            a.Set(5, 'e');
 
             var b = new SparseArray<char>(10);
-            b.Insert(1, 'a');
-            b.Insert(5, 'e');
-            b.Insert(3, 'c');
-            b.Insert(2, 'b');
-            b.Insert(4, 'd');
+            b.Set(1, 'a');
+            b.Set(5, 'e');
+            b.Set(3, 'c');
+            b.Set(2, 'b');
+            b.Set(4, 'd');
 
             Assert.IsTrue(b.Equals(a));
         }
@@ -174,18 +174,18 @@ namespace sharpcode.test
         public void Equals_3()
         {
             var a = new SparseArray<char>(20);
-            a.Insert(1, 'a');
-            a.Insert(2, 'b');
-            a.Insert(3, 'c');
-            a.Insert(4, 'd');
-            a.Insert(5, 'e');
+            a.Set(1, 'a');
+            a.Set(2, 'b');
+            a.Set(3, 'c');
+            a.Set(4, 'd');
+            a.Set(5, 'e');
 
             var b = new SparseArray<char>(10);
-            b.Insert(1, 'a');
-            b.Insert(5, 'e');
-            b.Insert(3, 'c');
-            b.Insert(2, 'b');
-            b.Insert(4, 'd');
+            b.Set(1, 'a');
+            b.Set(5, 'e');
+            b.Set(3, 'c');
+            b.Set(2, 'b');
+            b.Set(4, 'd');
 
             Assert.IsFalse(b.Equals(a));
         }
