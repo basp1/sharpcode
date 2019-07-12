@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using sharpcode;
 
 namespace sharpcode.test
@@ -81,76 +82,37 @@ namespace sharpcode.test
         }
 
         [TestMethod]
-        public void ForLine()
+        public void ForRow()
         {
             var A = new ElasticMatrix<double>(3, 4);
             A[0, 0] = 10; A[0, 1] = 11; A[0, 2] = 12; A[0, 3] = 13;
             A[1, 3] = 23; A[1, 0] = 20; A[1, 1] = 21;
             A[2, 3] = 33; A[2, 2] = 32; A[2, 1] = 31; A[2, 0] = 30;
 
-            A.ForRow(0, (j, value) =>
-            {
-                switch (j)
-                {
-                    case 0:
-                        Assert.AreEqual(10, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(11, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(12, value);
-                        break;
-                    case 3:
-                        Assert.AreEqual(13, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            A.Sorting();
 
+            var row = new List<double>();
+            A.ForRow(0, (j, value) => row.Add(value));
+            Assert.AreEqual(4, row.Count);
+            Assert.AreEqual(10, row[0]);
+            Assert.AreEqual(11, row[1]);
+            Assert.AreEqual(12, row[2]);
+            Assert.AreEqual(13, row[3]);
 
-            A.ForRow(1, (j, value) =>
-            {
-                switch (j)
-                {
-                    case 0:
-                        Assert.AreEqual(20, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(21, value);
-                        break;
-                    case 3:
-                        Assert.AreEqual(23, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            row.Clear();
+            A.ForRow(1, (j, value) => row.Add(value));
+            Assert.AreEqual(3, row.Count);
+            Assert.AreEqual(20, row[0]);
+            Assert.AreEqual(21, row[1]);
+            Assert.AreEqual(23, row[2]);
 
-            A.ForRow(2, (j, value) =>
-            {
-                switch (j)
-                {
-                    case 0:
-                        Assert.AreEqual(30, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(31, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(32, value);
-                        break;
-                    case 3:
-                        Assert.AreEqual(33, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            row.Clear();
+            A.ForRow(2, (j, value) => row.Add(value));
+            Assert.AreEqual(4, row.Count);
+            Assert.AreEqual(30, row[0]);
+            Assert.AreEqual(31, row[1]);
+            Assert.AreEqual(32, row[2]);
+            Assert.AreEqual(33, row[3]);
         }
     }
 }

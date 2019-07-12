@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using sharpcode;
 
 namespace sharpcode.test
@@ -183,69 +184,28 @@ namespace sharpcode.test
             P[2, 3] = 33; P[2, 2] = 32; P[2, 1] = 31; P[2, 0] = 30;
             var A = new SparseMatrix<double>(P);
 
-            A.ForRow(0, (j, value) =>
-            {
-                switch (j)
-                {
-                    case 0:
-                        Assert.AreEqual(10, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(11, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(12, value);
-                        break;
-                    case 3:
-                        Assert.AreEqual(13, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            var row = new List<double>();
+            A.ForRow(0, (j, value) => row.Add(value));
+            Assert.AreEqual(4, row.Count);
+            Assert.AreEqual(10, row[0]);
+            Assert.AreEqual(11, row[1]);
+            Assert.AreEqual(12, row[2]);
+            Assert.AreEqual(13, row[3]);
 
+            row.Clear();
+            A.ForRow(1, (j, value) => row.Add(value));
+            Assert.AreEqual(3, row.Count);
+            Assert.AreEqual(20, row[0]);
+            Assert.AreEqual(21, row[1]);
+            Assert.AreEqual(23, row[2]);
 
-            A.ForRow(1, (j, value) =>
-            {
-                switch (j)
-                {
-                    case 0:
-                        Assert.AreEqual(20, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(21, value);
-                        break;
-                    case 3:
-                        Assert.AreEqual(23, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
-
-            A.ForRow(2, (j, value) =>
-            {
-                switch (j)
-                {
-                    case 0:
-                        Assert.AreEqual(30, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(31, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(32, value);
-                        break;
-                    case 3:
-                        Assert.AreEqual(33, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            row.Clear();
+            A.ForRow(2, (j, value) => row.Add(value));
+            Assert.AreEqual(4, row.Count);
+            Assert.AreEqual(30, row[0]);
+            Assert.AreEqual(31, row[1]);
+            Assert.AreEqual(32, row[2]);
+            Assert.AreEqual(33, row[3]);
         }
 
         [TestMethod]
@@ -257,79 +217,32 @@ namespace sharpcode.test
             P[2, 3] = 33; P[2, 2] = 32; P[2, 1] = 31; P[2, 0] = 30;
             var A = new SparseMatrix<double>(P);
 
-            A.ForColumn(0, (i, value) =>
-            {
-                switch (i)
-                {
-                    case 0:
-                        Assert.AreEqual(10, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(20, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(30, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            var column = new List<double>();
+            A.ForColumn(0, (j, value) => column.Add(value));
+            Assert.AreEqual(3, column.Count);
+            Assert.AreEqual(10, column[0]);
+            Assert.AreEqual(20, column[1]);
+            Assert.AreEqual(30, column[2]);
 
+            column.Clear();
+            A.ForColumn(1, (j, value) => column.Add(value));
+            Assert.AreEqual(3, column.Count);
+            Assert.AreEqual(11, column[0]);
+            Assert.AreEqual(21, column[1]);
+            Assert.AreEqual(31, column[2]);
 
-            A.ForColumn(1, (i, value) =>
-            {
-                switch (i)
-                {
-                    case 0:
-                        Assert.AreEqual(11, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(21, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(31, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            column.Clear();
+            A.ForColumn(2, (j, value) => column.Add(value));
+            Assert.AreEqual(2, column.Count);
+            Assert.AreEqual(12, column[0]);
+            Assert.AreEqual(32, column[1]);
 
-            A.ForColumn(2, (i, value) =>
-            {
-                switch (i)
-                {
-                    case 0:
-                        Assert.AreEqual(12, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(32, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
-
-            A.ForColumn(3, (i, value) =>
-            {
-                switch (i)
-                {
-                    case 0:
-                        Assert.AreEqual(13, value);
-                        break;
-                    case 1:
-                        Assert.AreEqual(23, value);
-                        break;
-                    case 2:
-                        Assert.AreEqual(33, value);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            });
+            column.Clear();
+            A.ForColumn(3, (j, value) => column.Add(value));
+            Assert.AreEqual(3, column.Count);
+            Assert.AreEqual(13, column[0]);
+            Assert.AreEqual(23, column[1]);
+            Assert.AreEqual(33, column[2]);
         }
     }
 }
