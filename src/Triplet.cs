@@ -5,8 +5,8 @@ namespace sharpcode
 {
     public struct Triplet<T>
     {
-        public int column;
-        public int row;
-        public T value;
+        public int Column;
+        public int Row;
+        public T Value;
     }
 }
