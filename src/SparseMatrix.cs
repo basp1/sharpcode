@@ -42,6 +42,80 @@ namespace sharpcode
             Array.Copy(that.positions, positions, that.Count);
         }
 
+        public SparseMatrix(ElasticMatrix<T> that) : this(that.Rows, that.Columns, that.Count)
+        {
+            for (int i = 0, j = 0; i < Rows; i++)
+            {
+                that.ForRow(i, (col, x) => rowsColumns[j++] = col);
+                rows[i + 1] = j;
+            }
+
+            that = that.Transpose();
+
+            int[] index = new int[Rows];
+            for (int i = 0; i < index.Length; i++)
+            {
+                index[i] = rows[i];
+            }
+
+            for (int j = 0, i = 0; j < Columns; j++)
+            {
+                that.ForRow(j, (col, x) =>
+                {
+                    columnsRows[i] = col;
+                    values[i] = x;
+
+                    rowsColumns[index[col]] = j;
+                    positions[index[col]] = i;
+
+                    index[col]++;
+                    i++;
+                });
+                columns[j + 1] = i;
+            }
+
+            Count = that.Count;
+
+            Sorting();
+        }
+
+        public SparseMatrix(int m, int n, int[] rows, int[] columns, T[] values) : this(m, n, values.Length)
+        {
+            Count = values.Length;
+            Array.Copy(rows, this.rows, m + 1);
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = rows[i]; j < rows[i + 1]; j++)
+                {
+                    this.columns[columns[j] + 1]++;
+                }
+            }
+
+            for (int j = 1; j < (1 + n); j++)
+            {
+                this.columns[j] += this.columns[j - 1];
+            }
+
+            int[] cc = (int[])this.columns.Clone();
+            int[] rr = (int[])this.rows.Clone();
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = rows[i]; j < rows[i + 1]; j++)
+                {
+                    int c = cc[columns[j]];
+                    this.columnsRows[c] = i;
+                    this.values[c] = values[j];
+
+                    this.rowsColumns[rr[i]] = columns[j];
+                    this.positions[rr[i]] = c;
+
+                    cc[columns[j]] += 1;
+                    rr[i] += 1;
+                }
+            }
+        }
+
         public int Count { get; private set; }
 
         public int Rows { get; private set; }
