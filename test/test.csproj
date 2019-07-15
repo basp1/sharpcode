@@ -5,15 +5,13 @@
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>sharpcode.test</RootNamespace>
+    <RootNamespace>basp.sharpcode.test</RootNamespace>
 
     <PackageId>sharpcode.test</PackageId>
 
     <Version>0.1.0</Version>
 
     <Authors>basp</Authors>
-
-    <Product>sharpcode.test</Product>
 
     <AssemblyName>sharpcode.test</AssemblyName>
   </PropertyGroup>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
     public class ByteBuffer
     {

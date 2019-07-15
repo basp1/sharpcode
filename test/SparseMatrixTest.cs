@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using sharpcode;
+using basp.sharpcode;
 
-namespace sharpcode.test
+namespace basp.sharpcode.test
 {
     [TestClass]
     public class SparseMatrixTest

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
 #pragma warning disable CS0659
     public class DenseMatrix<T>

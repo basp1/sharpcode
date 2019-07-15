@@ -1,8 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using sharpcode;
+using basp.sharpcode;
 
-namespace sharpcode.test
+namespace basp.sharpcode.test
 {
     [TestClass]
     public class PriorityQueueTest

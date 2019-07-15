@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
 #pragma warning disable CS0659
     public class SegmentTree<T>

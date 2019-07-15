@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
 #pragma warning disable CS0659
     public class SparseArray<T> : IEnumerable<KeyValuePair<int, T>>

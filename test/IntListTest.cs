@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using sharpcode;
+using basp.sharpcode;
 
-namespace sharpcode.test
+namespace basp.sharpcode.test
 {
     [TestClass]
     public class IntListTest

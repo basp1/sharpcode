@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
     public class PriorityQueue<T>
     {

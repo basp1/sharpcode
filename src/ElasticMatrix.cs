@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
 #pragma warning disable CS0659
     public class ElasticMatrix<T>

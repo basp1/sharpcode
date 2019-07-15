@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace sharpcode
+namespace basp.sharpcode
 {
     public class BitSet
     {
