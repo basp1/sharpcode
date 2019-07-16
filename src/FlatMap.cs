@@ -44,6 +44,22 @@ namespace basp.sharpcode
             }
         }
 
+        public IList<Key> Keys
+        {
+            get
+            {
+                return keys;
+            }
+        }
+
+        public IList<Value> Values
+        {
+            get
+            {
+                return values;
+            }
+        }
+
         public void Reserve(int capacity)
         {
             keys.Capacity = capacity;
